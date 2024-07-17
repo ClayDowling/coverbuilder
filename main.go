@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"image"
+	"image/color"
 	_ "image/jpeg"
 	"image/png"
 	"log"
@@ -44,9 +45,16 @@ func main() {
 	scaled4 := scaleImage(img4)
 
 	draw.Copy(outimg, image.Point{}, scaled1, scaled1.Bounds(), draw.Over, nil)
-	draw.Copy(outimg, image.Point{IMG_X, 0}, scaled2, scaled2.Bounds(), draw.Over, nil)
-	draw.Copy(outimg, image.Point{0, IMG_Y}, scaled3, scaled3.Bounds(), draw.Over, nil)
-	draw.Copy(outimg, image.Point{IMG_X, IMG_Y}, scaled4, scaled4.Bounds(), draw.Over, nil)
+	draw.Copy(outimg, image.Point{IMG_X + 1, 0}, scaled2, scaled2.Bounds(), draw.Over, nil)
+	draw.Copy(outimg, image.Point{0, IMG_Y + 1}, scaled3, scaled3.Bounds(), draw.Over, nil)
+	draw.Copy(outimg, image.Point{IMG_X + 1, IMG_Y + 1}, scaled4, scaled4.Bounds(), draw.Over, nil)
+
+	for x := 0; x < FINAL_X; x++ {
+		outimg.SetRGBA(x, IMG_Y, color.RGBA{0xff, 0xff, 0xff, 0xff})
+	}
+	for y := 0; y < FINAL_X; y++ {
+		outimg.SetRGBA(IMG_X, y, color.RGBA{0xff, 0xff, 0xff, 0xff})
+	}
 
 	dst, err := os.Create(outfile)
 	if err != nil {
